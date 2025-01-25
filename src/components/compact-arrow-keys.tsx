@@ -1,9 +1,35 @@
-'use client';
-
 import React, { useState, useEffect, useCallback, memo } from 'react';
 import { Card } from '@/components/ui/card';
 
-const CubeEffectSVG = memo(({ isActive }) => (
+type ArrowKey = 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight';
+
+interface CubeEffectSVGProps {
+  isActive: boolean;
+}
+
+interface KeyButtonProps {
+  arrowKey: ArrowKey;
+  isActive: boolean;
+  onKeyPress: (key: ArrowKey) => void;
+  onKeyRelease: () => void;
+}
+
+interface ArrowKeysProps {
+  onArrowPress: (key: ArrowKey) => void;
+  onArrowRelease: () => void;
+}
+
+interface KeyMapItem {
+  symbol: string;
+  label: string;
+  color: string;
+}
+
+type KeyMap = {
+  [K in ArrowKey]: KeyMapItem;
+};
+
+const CubeEffectSVG: React.FC<CubeEffectSVGProps> = memo(({ isActive }) => (
   <>
     <div className={`
       absolute left-4 top-4
@@ -62,7 +88,7 @@ const CubeEffectSVG = memo(({ isActive }) => (
 
 CubeEffectSVG.displayName = 'CubeEffectSVG';
 
-const KeyButton = ({ 
+const KeyButton: React.FC<KeyButtonProps> = ({ 
   arrowKey, 
   isActive, 
   onKeyPress, 
@@ -70,7 +96,7 @@ const KeyButton = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   
-  const keyMap = {
+  const keyMap: KeyMap = {
     ArrowUp: { symbol: '↑', label: 'Up Arrow', color: 'text-cyan-400' },
     ArrowLeft: { symbol: '←', label: 'Left Arrow', color: 'text-purple-400' },
     ArrowDown: { symbol: '↓', label: 'Down Arrow', color: 'text-green-400' },
@@ -91,7 +117,6 @@ const KeyButton = ({
     >
       <CubeEffectSVG isActive={isActive} />
       
-      {/* Pulse effect on press */}
       <div className={`
         absolute inset-0 bg-white/5 rounded transform
         transition-all duration-300
@@ -150,20 +175,6 @@ const KeyButton = ({
   );
 };
 
-type ArrowKey = 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight';
-
-interface ArrowKeysProps {
-  onArrowPress: (key: ArrowKey) => void;
-  onArrowRelease: () => void;
-}
-
-interface KeyButtonProps {
-  arrowKey: ArrowKey;
-  isActive: boolean;
-  onKeyPress: (key: ArrowKey) => void;
-  onKeyRelease: () => void;
-}
-
 const ArrowKeys: React.FC<ArrowKeysProps> = ({ onArrowPress, onArrowRelease }) => {
   const [activeKey, setActiveKey] = useState<ArrowKey | null>(null);
 
@@ -199,17 +210,23 @@ const ArrowKeys: React.FC<ArrowKeysProps> = ({ onArrowPress, onArrowRelease }) =
             <KeyButton 
               arrowKey="ArrowUp"
               isActive={activeKey === "ArrowUp"}
-              onKeyPress={setActiveKey}
+              onKeyPress={(key) => {
+                setActiveKey(key);
+                onArrowPress(key);
+              }}
               onKeyRelease={handleKeyUp}
             />
           </div>
           <div className="col-span-3 flex justify-between">
-            {['ArrowLeft', 'ArrowDown', 'ArrowRight'].map((key) => (
+            {(['ArrowLeft', 'ArrowDown', 'ArrowRight'] as const).map((key) => (
               <KeyButton 
                 key={key}
                 arrowKey={key}
                 isActive={activeKey === key}
-                onKeyPress={setActiveKey}
+                onKeyPress={(key) => {
+                  setActiveKey(key);
+                  onArrowPress(key);
+                }}
                 onKeyRelease={handleKeyUp}
               />
             ))}
