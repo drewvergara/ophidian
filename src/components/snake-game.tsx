@@ -1,9 +1,37 @@
-'use client';
-
 import React, { useEffect, useRef, useState, useCallback, useImperativeHandle } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PlayIcon, PauseIcon, RefreshCwIcon } from 'lucide-react';
+
+declare global {
+  interface Window {
+    PIXI: typeof import('pixi.js');
+  }
+}
+
+interface Point {
+  x: number;
+  y: number;
+}
+
+interface Snake {
+  body: Point[];
+  graphics: import('pixi.js').Graphics;
+}
+
+interface Food {
+  position: Point;
+  graphics: import('pixi.js').Graphics;
+}
+
+interface GameState {
+  direction: Point;
+  nextDirection: Point;
+  snake: Snake | null;
+  food: Food | null;
+  app: import('pixi.js').Application | null;
+  moveTimer: ReturnType<typeof setInterval> | null;
+}
 
 // Constants
 const GAME_WIDTH = 320;
@@ -11,9 +39,14 @@ const CELL_SIZE = Math.floor(GAME_WIDTH / 15);
 const GRID_SIZE = 15;
 const MOVE_INTERVAL = 120;
 
-const SnakeGame = React.forwardRef((props, ref) => {
-  const containerRef = useRef(null);
-  const gameStateRef = useRef({
+const SnakeGame = React.forwardRef<{
+  handleKeyPress: (event: { key: string; preventDefault?: () => void }) => void;
+  pause: () => void;
+  resume: () => void;
+  reset: () => void;
+}>((props, ref) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const gameStateRef = useRef<GameState>({
     direction: { x: 1, y: 0 },
     nextDirection: { x: 1, y: 0 },
     snake: null,
@@ -28,7 +61,7 @@ const SnakeGame = React.forwardRef((props, ref) => {
   const [highScore, setHighScore] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getRandomPosition = useCallback(() => {
+  const getRandomPosition = useCallback((): Point => {
     const position = {
       x: Math.floor(Math.random() * GRID_SIZE),
       y: Math.floor(Math.random() * GRID_SIZE)
@@ -103,11 +136,9 @@ const SnakeGame = React.forwardRef((props, ref) => {
     const { app } = gameStateRef.current;
     if (!app) return;
     
-    // Generate new snake and food positions
     const randomSnake = getRandomSnake();
     const foodPosition = getRandomPosition();
     
-    // Clear existing graphics
     if (gameStateRef.current.snake) {
       gameStateRef.current.snake.graphics.clear();
     }
@@ -115,7 +146,6 @@ const SnakeGame = React.forwardRef((props, ref) => {
       gameStateRef.current.food.graphics.clear();
     }
 
-    // Update game state while preserving PIXI objects
     Object.assign(gameStateRef.current, {
       snake: {
         ...gameStateRef.current.snake,
@@ -129,12 +159,10 @@ const SnakeGame = React.forwardRef((props, ref) => {
       nextDirection: randomSnake.direction
     });
 
-    // Reset game state
     setScore(0);
     setGameOver(false);
     setIsPlaying(false);
 
-    // Redraw with new positions
     drawGame();
   }, [getRandomSnake, getRandomPosition, drawGame]);
 
@@ -179,7 +207,6 @@ const SnakeGame = React.forwardRef((props, ref) => {
   const initGame = useCallback(() => {
     if (!window.PIXI || !containerRef.current) return;
 
-    // Create new PIXI application with v8 syntax
     const app = new window.PIXI.Application({
       width: GRID_SIZE * CELL_SIZE,
       height: GRID_SIZE * CELL_SIZE,
@@ -195,18 +222,17 @@ const SnakeGame = React.forwardRef((props, ref) => {
       }
     });
 
-    // Clear container and add new canvas
-    containerRef.current.innerHTML = '';
-    containerRef.current.appendChild(app.view.canvas || app.view);
+    if (containerRef.current) {
+      containerRef.current.innerHTML = '';
+      containerRef.current.appendChild(app.view instanceof HTMLCanvasElement ? app.view : app.view.canvas);
+    }
 
-    // Create persistent graphics objects
     const snake = new window.PIXI.Graphics();
     const food = new window.PIXI.Graphics();
     
     app.stage.addChild(snake);
     app.stage.addChild(food);
 
-    // Set initial game state
     const randomSnake = getRandomSnake();
     gameStateRef.current = {
       app,
@@ -226,14 +252,13 @@ const SnakeGame = React.forwardRef((props, ref) => {
     drawGame();
   }, [getRandomSnake, getRandomPosition, drawGame]);
 
-  const handleKeyPress = useCallback((event) => {
+  const handleKeyPress = useCallback((event: { key: string; preventDefault?: () => void }) => {
     if (!isPlaying || gameOver) return;
 
-    // Support both keyboard events and direct key strings
-    const key = event.key || event;
+    const key = event.key;
     const { direction } = gameStateRef.current;
     
-    const keyDirections = {
+    const keyDirections: Record<string, { x: number; y: number; opposite: boolean }> = {
       ArrowUp: { x: 0, y: -1, opposite: direction.y === 1 },
       ArrowDown: { x: 0, y: 1, opposite: direction.y === -1 },
       ArrowLeft: { x: -1, y: 0, opposite: direction.x === 1 },
@@ -250,7 +275,6 @@ const SnakeGame = React.forwardRef((props, ref) => {
     }
   }, [isPlaying, gameOver]);
 
-  // Expose methods via ref
   useImperativeHandle(ref, () => ({
     handleKeyPress,
     pause: () => setIsPlaying(false),
@@ -266,9 +290,7 @@ const SnakeGame = React.forwardRef((props, ref) => {
     document.body.appendChild(script);
 
     return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
+      document.body.contains(script) && document.body.removeChild(script);
     };
   }, []);
 
@@ -276,12 +298,10 @@ const SnakeGame = React.forwardRef((props, ref) => {
     if (!isLoading && !gameStateRef.current.app) {
       const resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
-          if (entry.target === containerRef.current) {
+          if (entry.target === containerRef.current && gameStateRef.current.app) {
             const width = entry.contentRect.width;
-            if (gameStateRef.current.app) {
-              gameStateRef.current.app.renderer.resize(width, width);
-              drawGame();
-            }
+            gameStateRef.current.app.renderer.resize(width, width);
+            drawGame();
           }
         }
       });
@@ -301,17 +321,21 @@ const SnakeGame = React.forwardRef((props, ref) => {
   useEffect(() => {
     if (!isLoading) {
       window.addEventListener('keydown', handleKeyPress);
-      return () => {
-        window.removeEventListener('keydown', handleKeyPress);
-      };
+      return () => window.removeEventListener('keydown', handleKeyPress);
     }
   }, [isLoading, handleKeyPress]);
 
   useEffect(() => {
     if (isPlaying && !gameOver) {
-      gameStateRef.current.moveTimer = setInterval(moveSnake, MOVE_INTERVAL);
+      const timer = setInterval(moveSnake, MOVE_INTERVAL);
+      gameStateRef.current.moveTimer = timer;
+      return () => clearInterval(timer);
     }
-    return () => clearInterval(gameStateRef.current.moveTimer);
+    return () => {
+      if (gameStateRef.current.moveTimer) {
+        clearInterval(gameStateRef.current.moveTimer);
+      }
+    };
   }, [isPlaying, gameOver, moveSnake]);
 
   useEffect(() => {
