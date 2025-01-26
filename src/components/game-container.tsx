@@ -79,8 +79,9 @@ const GameContainer: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-4 w-full max-w-[380px] mx-auto">
+      <div className="border border-white/20">
       {/* Game Component */}
-      <div className="w-full z-10">
+      <div className="w-full z-100">
         <SnakeGame ref={gameRef} />
       </div>
       
@@ -109,7 +110,7 @@ const GameContainer: React.FC = () => {
       */}
 
       {/* Virtual Controls */}
-      <Card className="w-full bg-black/30 backdrop-blur-sm border-none shadow-lg rounded-none">
+      <Card className="w-full bg-black/30 backdrop-blur-sm border-none shadow-lg rounded-none z-10">
         <div className="w-[360px] p-0">
           <ArrowKeys
             onArrowPress={handleArrowPress}
@@ -118,7 +119,7 @@ const GameContainer: React.FC = () => {
         </div>
       </Card>
 
-
+        </div>
     </div>
   );
 };

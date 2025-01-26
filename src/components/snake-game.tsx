@@ -106,11 +106,16 @@ const SnakeGame = React.forwardRef<{
     const { snake, food } = gameStateRef.current;
     if (!snake || !food) return;
 
+    // Update snake drawing style
     snake.graphics.clear();
-    snake.graphics.beginFill(0x50C878);
     snake.body.forEach((segment, index) => {
       const isHead = index === 0;
       const padding = isHead ? 2 : 4;
+      
+      // Set line style for snake
+      snake.graphics.lineStyle(1, 0x50C878, 1);
+      snake.graphics.beginFill(0x000000, 0);
+      
       snake.graphics.drawRoundedRect(
         segment.x * CELL_SIZE + padding,
         segment.y * CELL_SIZE + padding,
@@ -118,11 +123,14 @@ const SnakeGame = React.forwardRef<{
         CELL_SIZE - padding * 2,
         isHead ? 6 : 4
       );
+      
+      snake.graphics.endFill();
     });
-    snake.graphics.endFill();
 
+    // Update food drawing style
     food.graphics.clear();
-    food.graphics.beginFill(0xFF6B6B);
+    food.graphics.lineStyle(1, 0xFF6B6B, 1);
+    food.graphics.beginFill(0x000000, 0);
     food.graphics.drawCircle(
       food.position.x * CELL_SIZE + CELL_SIZE / 2,
       food.position.y * CELL_SIZE + CELL_SIZE / 2,
@@ -203,7 +211,6 @@ const SnakeGame = React.forwardRef<{
   }, [isPlaying, gameOver, score, highScore, getRandomPosition, drawGame]);
 
   const initGame = useCallback(() => {
-    console.log('initGame called', window.PIXI, containerRef.current);
     if (!window.PIXI || !containerRef.current) return;
 
     const app = new window.PIXI.Application({
@@ -224,7 +231,6 @@ const SnakeGame = React.forwardRef<{
     (app.view as HTMLCanvasElement).style.zIndex = '1';
 
     if (containerRef.current) {
-      // Remove only previous canvas if it exists
       const existingCanvas = containerRef.current.querySelector('canvas');
       if (existingCanvas) {
         containerRef.current.removeChild(existingCanvas);
@@ -357,9 +363,9 @@ const SnakeGame = React.forwardRef<{
 
   if (isLoading) {
     return (
-      <Card className="w-[380px] mx-auto">
-        <CardContent className="flex items-center justify-center h-80">
-          <p className="text-muted-foreground">Loading game...</p>
+      <Card className="w-[360px] mx-auto bg-black/30 backdrop-blur-sm border-none rounded-none">
+        <CardContent className="flex items-center justify-center h-80 font-mono font-light">
+          <p className="text-sm text-muted-foreground">Loading game...</p>
         </CardContent>
       </Card>
     );
@@ -376,7 +382,7 @@ const SnakeGame = React.forwardRef<{
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-2">
+      <CardContent className="pt-2 pb-12">
         <div className="flex flex-col items-center">
           <div className="border-none rounded-none relative" 
                style={{
@@ -416,7 +422,7 @@ const SnakeGame = React.forwardRef<{
                 <Button
                   variant="secondary"
                   onClick={() => setIsPlaying(false)}
-                  className="absolute bottom-[-40] right-[6] w-8 h-8 rounded-full p-0 z-20 bg-transparent border border-dotted text-[#FFF]"
+                  className="absolute bottom-[-40] right-[6] w-8 h-8 rounded-full p-0 z-100 bg-transparent border border-dotted text-[#FFF]"
                 >
                   <PauseIcon className="w-6 h-6" />
                 </Button>
