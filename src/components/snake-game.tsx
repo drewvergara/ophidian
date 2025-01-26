@@ -393,10 +393,10 @@ const SnakeGame = React.forwardRef<{
                       console.log('Start clicked');
                       setIsPlaying(true);
                     }}
-                    className="w-32 h-12 text-lg"
+                    className="w-32 h-12 bg-transparent border border-dashed border-gray-500 font-mono text-[#FFF] text-sm"
                   >
                     <PlayIcon className="w-5 h-5 mr-2" />
-                    Start
+                    START
                   </Button>
                 </div>
               )}
@@ -405,10 +405,10 @@ const SnakeGame = React.forwardRef<{
                   <Button
                     variant="destructive"
                     onClick={handleReset}
-                    className="w-32 h-12 text-lg"
+                    className="w-32 h-12 bg-transparent border border-dashed border-red-500 font-mono text-[#FFA] text-sm"
                   >
                     <RefreshCwIcon className="w-5 h-5 mr-2" />
-                    Restart
+                    RESTART
                   </Button>
                 </div>
               )}
@@ -416,7 +416,7 @@ const SnakeGame = React.forwardRef<{
                 <Button
                   variant="secondary"
                   onClick={() => setIsPlaying(false)}
-                  className="absolute top-[-16] right-[-16] w-8 h-8 rounded-full p-0 z-20"
+                  className="absolute bottom-[-40] right-[6] w-8 h-8 rounded-full p-0 z-20 bg-transparent border border-dotted text-[#FFF]"
                 >
                   <PauseIcon className="w-6 h-6" />
                 </Button>
@@ -424,7 +424,7 @@ const SnakeGame = React.forwardRef<{
             </div>
           </div>
           {gameOver && (
-            <p className="text-center text-destructive font-mono font-light text-sm mt-3 absolute z-20 top-[160px]">
+            <p className="text-center text-destructive font-mono font-light text-sm mt-3 absolute z-20 top-[140px]">
               Game Over! <br/>Click Restart to play again.
             </p>
           )}
