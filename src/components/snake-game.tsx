@@ -224,7 +224,7 @@ const SnakeGame = React.forwardRef<{
 
     if (containerRef.current) {
       containerRef.current.innerHTML = '';
-      containerRef.current.appendChild(app.view instanceof HTMLCanvasElement ? app.view : app.view.canvas);
+      containerRef.current.appendChild(app.view as HTMLCanvasElement);
     }
 
     const snake = new window.PIXI.Graphics();
@@ -342,7 +342,7 @@ const SnakeGame = React.forwardRef<{
     return () => {
       if (gameStateRef.current.app) {
         try {
-          gameStateRef.current.app.destroy({ children: true, texture: true, baseTexture: true });
+          gameStateRef.current.app.destroy(true);
         } catch (error) {
           console.error('Error during cleanup:', error);
         }
