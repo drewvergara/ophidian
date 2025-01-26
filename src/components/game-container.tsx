@@ -78,13 +78,14 @@ const GameContainer: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-8 p-8 w-full max-w-[800px] mx-auto">
+    <div className="min-h-screen flex flex-col items-center justify-center py-4 w-full max-w-[380px] mx-auto">
       {/* Game Component */}
       <div className="w-full z-10">
         <SnakeGame ref={gameRef} />
       </div>
       
       {/* Game Controls */}
+      {/*}
       <div className="flex gap-4 mt-4 z-10">
         <button
           onClick={handlePause}
@@ -105,10 +106,11 @@ const GameContainer: React.FC = () => {
           Reset
         </button>
       </div>
+      */}
 
       {/* Virtual Controls */}
-      <Card className="w-full bg-black/50 backdrop-blur-sm border-none shadow-lg">
-        <div className="p-4">
+      <Card className="w-full bg-black/30 backdrop-blur-sm border-none shadow-lg rounded-none">
+        <div className="w-[360px] p-0">
           <ArrowKeys
             onArrowPress={handleArrowPress}
             onArrowRelease={handleArrowRelease}

@@ -33,7 +33,7 @@ interface GameState {
   moveTimer: ReturnType<typeof setInterval> | null;
 }
 
-const GAME_WIDTH = 320;
+const GAME_WIDTH = 360;
 const CELL_SIZE = Math.floor(GAME_WIDTH / 15);
 const GRID_SIZE = 15;
 const MOVE_INTERVAL = 120;
@@ -366,19 +366,19 @@ const SnakeGame = React.forwardRef<{
   }
 
   return (
-    <Card className="w-[380px] mx-auto">
+    <Card className="w-[360px] bg-black/30 backdrop-blur-sm border-none mx-auto rounded-none">
       <CardHeader className="pb-2 space-y-0">
-        <CardTitle className="flex justify-between items-center text-lg">
-          <span>Snake Game</span>
+        <CardTitle className="flex justify-between items-center font-mono font-light text-md">
+          <span className="text-[#FFF]">OPHIDIAN</span>
           <div className="flex gap-4">
-            <span>Score: {score}</span>
-            <span className="text-muted-foreground">Best: {highScore}</span>
+            <span className="text-sm text-[#E9271D]">SCORE: {score}</span>
+            <span className="text-sm text-[#5D100C]">BEST: {highScore}</span>
           </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-2">
         <div className="flex flex-col items-center">
-          <div className="border border-border rounded-lg relative" 
+          <div className="border-none rounded-none relative" 
                style={{
                  width: GRID_SIZE * CELL_SIZE,
                  height: GRID_SIZE * CELL_SIZE,
@@ -424,8 +424,8 @@ const SnakeGame = React.forwardRef<{
             </div>
           </div>
           {gameOver && (
-            <p className="text-destructive font-semibold text-sm mt-3 absolute z-20">
-              Game Over! Click Restart to play again.
+            <p className="text-center text-destructive font-mono font-light text-sm mt-3 absolute z-20 top-[160px]">
+              Game Over! <br/>Click Restart to play again.
             </p>
           )}
         </div>

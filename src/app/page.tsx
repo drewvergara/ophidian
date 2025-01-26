@@ -6,7 +6,7 @@ export default function Home() {
     <div 
       className="bg-black min-h-full w-full justify-items-center bg-cover bg-center font-[family-name:var(--font-geist-sans)]"
       style={{
-        backgroundImage: 'url("/minimalist_abstract_wave.jpg")',
+        backgroundImage: 'url("/minimalist_abstract_squares.png")',
         backgroundColor: '#1a1a1a', // Fallback color while image loads
         backdropFilter: 'blur(5px)'
       }}      
@@ -31,7 +31,7 @@ export default function Home() {
       ></div>
       
       {/* Noise filter SVG */}
-      <svg className="absolute inset-0 w-full h-full opacity-30">
+      <svg className="absolute inset-0 w-full h-full opacity-20">
         <defs>
           <filter id="noise">
             <feTurbulence 

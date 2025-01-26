@@ -203,8 +203,8 @@ const ArrowKeys: React.FC<ArrowKeysProps> = ({ onArrowPress, onArrowRelease }) =
   }, [handleKeyDown, handleKeyUp]);
 
   return (
-    <div className="w-full bg-black flex items-center justify-center p-4">
-      <Card className="w-[380px] p-8 bg-transparent border-transparent">
+    <div className="w-full flex items-center justify-center p-4">
+      <Card className="w-[380px] p-8 bg-transparent border-none rounded-none">
         <div className="grid grid-cols-3 gap-8" role="group" aria-label="Arrow Keys">
           <div className="col-start-2">
             <KeyButton 

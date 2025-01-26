@@ -13,13 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Preamble",
-  description: "Preamble is an applet that is a minimalistic countdown timer.",
+  title: "Ophidian",
+  description: "Ophidian is an applet that is a Snake game.",
   openGraph: {
-    title: 'Preamble',
-    description: 'Preamble is an applet that is a minimalistic circular countdown timer.',
+    title: 'Ophidian',
+    description: 'Ophidian is an applet that is a Snake game.',
     url: 'https://preamble-offekt.vercel.app/',
-    siteName: 'Preamble',
+    siteName: 'Ophidian',
     images: [
       {
         url: 'https://offekt.s3.us-west-2.amazonaws.com/opengraph/preamble_opengraph_800x600.png', // Must be an absolute URL
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
         url: 'https://offekt.s3.us-west-2.amazonaws.com/opengraph/preamble_opengraph_1800x1600.png', // Must be an absolute URL
         width: 1800,
         height: 1600,
-        alt: 'Preamble | Minimalistic Countdown Timer',
+        alt: 'Ophidian | A Snake Game',
       },
     ],
     locale: 'en_US',
@@ -38,8 +38,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Preamble',
-    description: 'Preamble is an applet that is a minimalistic countdown timer.',
+    title: 'Ophidian',
+    description: 'Ophidian is an applet that is a Snake game.',
     creator: '@drewvergara',
     images: ['https://offekt.s3.us-west-2.amazonaws.com/opengraph/preamble_opengraph_1800x1600.png'], // Must be an absolute URL
   }    
