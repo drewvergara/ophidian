@@ -33,7 +33,6 @@ interface GameState {
   moveTimer: ReturnType<typeof setInterval> | null;
 }
 
-// Constants
 const GAME_WIDTH = 320;
 const CELL_SIZE = Math.floor(GAME_WIDTH / 15);
 const GRID_SIZE = 15;
@@ -161,7 +160,6 @@ const SnakeGame = React.forwardRef<{
 
     setScore(0);
     setGameOver(false);
-    setIsPlaying(false);
 
     drawGame();
   }, [getRandomSnake, getRandomPosition, drawGame]);
@@ -205,6 +203,7 @@ const SnakeGame = React.forwardRef<{
   }, [isPlaying, gameOver, score, highScore, getRandomPosition, drawGame]);
 
   const initGame = useCallback(() => {
+    console.log('initGame called', window.PIXI, containerRef.current);
     if (!window.PIXI || !containerRef.current) return;
 
     const app = new window.PIXI.Application({
@@ -222,8 +221,14 @@ const SnakeGame = React.forwardRef<{
       }
     });
 
+    (app.view as HTMLCanvasElement).style.zIndex = '1';
+
     if (containerRef.current) {
-      containerRef.current.innerHTML = '';
+      // Remove only previous canvas if it exists
+      const existingCanvas = containerRef.current.querySelector('canvas');
+      if (existingCanvas) {
+        containerRef.current.removeChild(existingCanvas);
+      }
       containerRef.current.appendChild(app.view as HTMLCanvasElement);
     }
 
@@ -372,39 +377,54 @@ const SnakeGame = React.forwardRef<{
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-2">
-        <div className="flex flex-col items-center gap-3">
-          <div
-            ref={containerRef}
-            className="border border-border rounded-lg overflow-hidden"
-            style={{
-              width: GRID_SIZE * CELL_SIZE,
-              height: GRID_SIZE * CELL_SIZE,
-            }}
-          />
-          <div className="flex gap-2">
-            <Button
-              variant={gameOver ? "destructive" : "outline"}
-              onClick={() => {
-                if (gameOver) {
-                  handleReset();
-                } else {
-                  setIsPlaying(!isPlaying);
-                }
-              }}
-              className="w-24"
-            >
-              {gameOver ? (
-                <RefreshCwIcon className="w-4 h-4 mr-2" />
-              ) : isPlaying ? (
-                <PauseIcon className="w-4 h-4 mr-2" />
-              ) : (
-                <PlayIcon className="w-4 h-4 mr-2" />
+        <div className="flex flex-col items-center">
+          <div className="border border-border rounded-lg relative" 
+               style={{
+                 width: GRID_SIZE * CELL_SIZE,
+                 height: GRID_SIZE * CELL_SIZE,
+               }}>
+            <div ref={containerRef} className="absolute inset-0" style={{ zIndex: 1 }}></div>
+            <div className="absolute inset-0" style={{ zIndex: 2 }}>
+              {!isPlaying && !gameOver && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-20">
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      console.log('Start clicked');
+                      setIsPlaying(true);
+                    }}
+                    className="w-32 h-12 text-lg"
+                  >
+                    <PlayIcon className="w-5 h-5 mr-2" />
+                    Start
+                  </Button>
+                </div>
               )}
-              {gameOver ? "Restart" : isPlaying ? "Pause" : "Start"}
-            </Button>
+              {gameOver && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-20">
+                  <Button
+                    variant="destructive"
+                    onClick={handleReset}
+                    className="w-32 h-12 text-lg"
+                  >
+                    <RefreshCwIcon className="w-5 h-5 mr-2" />
+                    Restart
+                  </Button>
+                </div>
+              )}
+              {(isPlaying && !gameOver) && (
+                <Button
+                  variant="secondary"
+                  onClick={() => setIsPlaying(false)}
+                  className="absolute top-[-16] right-[-16] w-8 h-8 rounded-full p-0 z-20"
+                >
+                  <PauseIcon className="w-6 h-6" />
+                </Button>
+              )}
+            </div>
           </div>
           {gameOver && (
-            <p className="text-destructive font-semibold text-sm">
+            <p className="text-destructive font-semibold text-sm mt-3 absolute z-20">
               Game Over! Click Restart to play again.
             </p>
           )}
@@ -416,4 +436,4 @@ const SnakeGame = React.forwardRef<{
 
 SnakeGame.displayName = 'SnakeGame';
 
-export default SnakeGame;
+export default SnakeGame
