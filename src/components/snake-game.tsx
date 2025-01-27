@@ -328,6 +328,8 @@ const SnakeGame = React.forwardRef<{
         resizeObserver.disconnect();
       };
     }
+    return; 
+    
   }, [isLoading, initGame, drawGame]);
 
   useEffect(() => {
