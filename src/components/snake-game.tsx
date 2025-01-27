@@ -315,27 +315,31 @@ const SnakeGame = React.forwardRef<{
 
   useEffect(() => {
     if (!isLoading && !gameStateRef.current.app) {
-      const handleResize = (entries: ResizeObserverEntry[]) => {
-        for (const entry of entries) {
-          if (entry.target === containerRef.current && gameStateRef.current.app) {
-            const width = entry.contentRect.width;
-            gameStateRef.current.app.renderer.resize(width, width);
-            drawGame();
-          }
+      let currentRef: HTMLDivElement | null = null;
+      let resizeObserver: ResizeObserver | null = null;
+  
+      const setupResizeObserver = () => {
+        resizeObserver = new ResizeObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.target === containerRef.current && gameStateRef.current.app) {
+              const width = entry.contentRect.width;
+              gameStateRef.current.app.renderer.resize(width, width);
+              drawGame();
+            }
+          });
+        });
+  
+        currentRef = containerRef.current;
+        if (currentRef) {
+          resizeObserver.observe(currentRef);
         }
       };
   
-      const resizeObserver = new ResizeObserver(handleResize);
-    
-      const currentRef = containerRef.current;
-      if (currentRef) {
-        resizeObserver.observe(currentRef);
-      }
-  
+      setupResizeObserver();
       initGame();
-    
+  
       return () => {
-        if (currentRef) {
+        if (resizeObserver && currentRef) {
           resizeObserver.disconnect();
         }
       };
