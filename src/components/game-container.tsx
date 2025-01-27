@@ -59,24 +59,6 @@ const GameContainer: React.FC = () => {
     };
   }, []);
 
-  const handlePause = () => {
-    if (gameRef.current) {
-      gameRef.current.pause();
-    }
-  };
-
-  const handleResume = () => {
-    if (gameRef.current) {
-      gameRef.current.resume();
-    }
-  };
-
-  const handleReset = () => {
-    if (gameRef.current) {
-      gameRef.current.reset();
-    }
-  };
-
   return (
     <div className="flex flex-col items-center justify-center py-4 w-full max-w-[380px] mx-auto">
       <div className="border border-white/20">
@@ -84,30 +66,6 @@ const GameContainer: React.FC = () => {
       <div className="w-full z-100">
         <SnakeGame ref={gameRef} />
       </div>
-      
-      {/* Game Controls */}
-      {/*}
-      <div className="flex gap-4 mt-4 z-10">
-        <button
-          onClick={handlePause}
-          className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
-        >
-          Pause
-        </button>
-        <button
-          onClick={handleResume}
-          className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
-        >
-          Resume
-        </button>
-        <button
-          onClick={handleReset}
-          className="px-4 py-2 bg-red-700 text-white rounded hover:bg-red-600"
-        >
-          Reset
-        </button>
-      </div>
-      */}
 
       {/* Virtual Controls */}
       <Card className="w-full bg-[#f7f4ed] backdrop-blur-sm border-none shadow-lg rounded-none z-10">
