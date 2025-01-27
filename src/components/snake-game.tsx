@@ -315,7 +315,7 @@ const SnakeGame = React.forwardRef<{
 
   useEffect(() => {
     if (!isLoading && !gameStateRef.current.app) {
-      const resizeObserver = new ResizeObserver((entries) => {
+      const handleResize = (entries: ResizeObserverEntry[]) => {
         for (const entry of entries) {
           if (entry.target === containerRef.current && gameStateRef.current.app) {
             const width = entry.contentRect.width;
@@ -323,15 +323,17 @@ const SnakeGame = React.forwardRef<{
             drawGame();
           }
         }
-      });
+      };
   
+      const resizeObserver = new ResizeObserver(handleResize);
+    
       const currentRef = containerRef.current;
       if (currentRef) {
         resizeObserver.observe(currentRef);
       }
   
       initGame();
-  
+    
       return () => {
         if (currentRef) {
           resizeObserver.disconnect();
