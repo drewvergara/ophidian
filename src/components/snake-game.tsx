@@ -318,14 +318,15 @@ const SnakeGame = React.forwardRef<{
         }
       });
   
-      if (containerRef.current) {
-        resizeObserver.observe(containerRef.current);
+      const currentRef = containerRef.current;
+      if (currentRef) {
+        resizeObserver.observe(currentRef);
       }
   
       initGame();
   
       return () => {
-        if (containerRef.current) {
+        if (currentRef) {
           resizeObserver.disconnect();
         }
       };
