@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Ophidian',
     description: 'Ophidian is an applet that is a Snake game.',
-    url: 'https://preamble-offekt.vercel.app/',
+    url: 'https://ophidian-offekt.vercel.app/',
     siteName: 'Ophidian',
     images: [
       {
@@ -56,6 +57,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
