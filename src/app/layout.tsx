@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     siteName: 'Ophidian',
     images: [
       {
-        url: 'https://offekt.s3.us-west-2.amazonaws.com/opengraph/preamble_opengraph_800x600.png', // Must be an absolute URL
+        url: 'https://offekt.s3.us-west-2.amazonaws.com/opengraph/ophidian_opengraph_20250126_800x600.jpg', // Must be an absolute URL
         width: 800,
         height: 600,
       },
       {
-        url: 'https://offekt.s3.us-west-2.amazonaws.com/opengraph/preamble_opengraph_1800x1600.png', // Must be an absolute URL
+        url: 'https://offekt.s3.us-west-2.amazonaws.com/opengraph/ophidian_opengraph_20250126_1800x1600.jpg', // Must be an absolute URL
         width: 1800,
         height: 1600,
         alt: 'Ophidian | A Snake Game',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: 'Ophidian',
     description: 'Ophidian is an applet that is a Snake game.',
     creator: '@drewvergara',
-    images: ['https://offekt.s3.us-west-2.amazonaws.com/opengraph/preamble_opengraph_1800x1600.png'], // Must be an absolute URL
+    images: ['https://offekt.s3.us-west-2.amazonaws.com/opengraph/ophidian_opengraph_20250126_1800x1600.jpg'], // Must be an absolute URL
   }    
 };
 

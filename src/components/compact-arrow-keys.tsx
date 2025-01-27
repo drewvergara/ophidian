@@ -41,7 +41,7 @@ const CubeEffectSVG: React.FC<CubeEffectSVGProps> = memo(({ isActive }) => (
           x="0" y="0" width="64" height="64"
           rx="8" ry="8"
           fill="none" 
-          stroke="rgba(255,255,255,0.25)" 
+          stroke="rgba(0,0,0,0.65)" 
           strokeWidth="2"
           strokeDasharray="1 3"
         >
@@ -61,15 +61,15 @@ const CubeEffectSVG: React.FC<CubeEffectSVGProps> = memo(({ isActive }) => (
     `}>
       <svg width="80" height="80" aria-hidden="true">
         {[
-          [0, 0, 16, 16],
-          [64, 0, 80, 16],
+          [1, 1, 16, 16],
+          [64, 1, 80, 16],
           [0, 64, 16, 80],
           [64, 64, 80, 80]
         ].map(([x1, y1, x2, y2], index) => (
           <line 
             key={index}
             x1={x1} y1={y1} x2={x2} y2={y2}
-            stroke="rgba(255,255,255,0.25)"
+            stroke="rgba(0,0,0,0.65)"
             strokeWidth="2"
             strokeDasharray="1 3"
           >
@@ -97,10 +97,10 @@ const KeyButton: React.FC<KeyButtonProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   
   const keyMap: KeyMap = {
-    ArrowUp: { symbol: '↑', label: 'Up Arrow', color: 'text-cyan-400' },
-    ArrowLeft: { symbol: '←', label: 'Left Arrow', color: 'text-purple-400' },
-    ArrowDown: { symbol: '↓', label: 'Down Arrow', color: 'text-green-400' },
-    ArrowRight: { symbol: '→', label: 'Right Arrow', color: 'text-orange-400' }
+    ArrowUp: { symbol: '. ↑ .', label: 'Up Arrow', color: 'text-cyan-400' },
+    ArrowLeft: { symbol: 'o ← o', label: 'Left Arrow', color: 'text-purple-400' },
+    ArrowDown: { symbol: '+ ↓ +', label: 'Down Arrow', color: 'text-green-400' },
+    ArrowRight: { symbol: '* → *', label: 'Right Arrow', color: 'text-orange-400' }
   };
   
   const { symbol, label, color } = keyMap[arrowKey];
@@ -204,7 +204,7 @@ const ArrowKeys: React.FC<ArrowKeysProps> = ({ onArrowPress, onArrowRelease }) =
 
   return (
     <div className="w-full flex items-center justify-center p-4">
-      <Card className="w-[380px] p-6 bg-transparent border-none rounded-none">
+      <Card className="w-[380px] p-6 bg-transparent border-none rounded-none shadow-none">
         <div className="grid grid-cols-3 gap-8" role="group" aria-label="Arrow Keys">
           <div className="col-start-2">
             <KeyButton 

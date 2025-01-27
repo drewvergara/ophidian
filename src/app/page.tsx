@@ -65,8 +65,24 @@ export default function Home() {
           style={{ mixBlendMode: 'overlay' }}
         />
       </svg>      
-      <main className="flex flex-col gap-8 row-start-2 items-center">
+      <main className="min-h-screen flex flex-col gap-4 row-start-2 items-center">
         <GameContainer/>
+        <div className="mb-4">
+          <a
+          href="https://www.offekt.com"
+          target="_blank"
+          className="z-20"
+        >
+          <Image
+              className="dark:invert"
+              src="/offekt_logo_20250117@2x.png"
+              alt="OFFEKT logo"
+              width={88}
+              height={27}
+              priority
+            />      
+        </a>
+        </div>
       </main>
     </div>
   );

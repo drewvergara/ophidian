@@ -129,7 +129,7 @@ const SnakeGame = React.forwardRef<{
 
     // Update food drawing style
     food.graphics.clear();
-    food.graphics.lineStyle(1, 0xFF6B6B, 1);
+    food.graphics.lineStyle(1, 0xE9271D, 1);
     food.graphics.beginFill(0x000000, 0);
     food.graphics.drawCircle(
       food.position.x * CELL_SIZE + CELL_SIZE / 2,
@@ -217,6 +217,7 @@ const SnakeGame = React.forwardRef<{
       width: GRID_SIZE * CELL_SIZE,
       height: GRID_SIZE * CELL_SIZE,
       background: '#00000000',
+      backgroundAlpha: 0,
       antialias: true,
       resolution: 1,
       eventMode: 'static',
@@ -365,14 +366,14 @@ const SnakeGame = React.forwardRef<{
     return (
       <Card className="w-[360px] mx-auto bg-black/30 backdrop-blur-sm border-none rounded-none">
         <CardContent className="flex items-center justify-center h-80 font-mono font-light">
-          <p className="text-sm text-muted-foreground">Loading game...</p>
+          <p className="text-sm text-white">Loading game...</p>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="w-[360px] bg-black/30 backdrop-blur-sm border-none mx-auto rounded-none">
+    <Card className="w-[360px] bg-black/35 backdrop-blur-sm border-none mx-auto rounded-none">
       <CardHeader className="pb-2 space-y-0">
         <CardTitle className="flex justify-between items-center font-mono font-light text-md">
           <span className="text-[#FFF]">OPHIDIAN</span>
@@ -384,7 +385,7 @@ const SnakeGame = React.forwardRef<{
       </CardHeader>
       <CardContent className="pt-2 pb-12">
         <div className="flex flex-col items-center">
-          <div className="border-none rounded-none relative" 
+          <div className="border-t border-b border-white/10 border-dashed rounded-none relative" 
                style={{
                  width: GRID_SIZE * CELL_SIZE,
                  height: GRID_SIZE * CELL_SIZE,
@@ -392,29 +393,35 @@ const SnakeGame = React.forwardRef<{
             <div ref={containerRef} className="absolute inset-0" style={{ zIndex: 1 }}></div>
             <div className="absolute inset-0" style={{ zIndex: 2 }}>
               {!isPlaying && !gameOver && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-20">
+                <div className="absolute inset-0 flex items-center justify-center bg-black/0 backdrop-blur-sm z-20">
                   <Button
                     variant="secondary"
                     onClick={() => {
                       console.log('Start clicked');
                       setIsPlaying(true);
                     }}
-                    className="w-32 h-12 bg-transparent border border-dashed border-gray-500 font-mono text-[#FFF] text-sm"
+                    className="w-32 h-12 bg-transparent border border-dashed border-white font-mono text-[#FFF] text-sm"
                   >
+                    <span className='duration-150 animate-bounce'>
                     <PlayIcon className="w-5 h-5 mr-2" />
+                    </span>
                     START
                   </Button>
                 </div>
               )}
               {gameOver && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-20">
+                <div className="absolute inset-0 flex items-center justify-center bg-black/0 backdrop-blur-sm z-20">
                   <Button
                     variant="destructive"
                     onClick={handleReset}
                     className="w-32 h-12 bg-transparent border border-dashed border-red-500 font-mono text-[#FFA] text-sm"
                   >
-                    <RefreshCwIcon className="w-5 h-5 mr-2" />
+                    <span className='animate-spin'>
+                    <RefreshCwIcon className="w-5 h-5" />
+                    </span>
+                    <span className='animate-pulse ml-2'>
                     RESTART
+                    </span>
                   </Button>
                 </div>
               )}
@@ -431,7 +438,7 @@ const SnakeGame = React.forwardRef<{
           </div>
           {gameOver && (
             <p className="text-center text-destructive font-mono font-light text-sm mt-3 absolute z-20 top-[140px]">
-              Game Over! <br/>Click Restart to play again.
+              <span className="text-lg">Game Over!</span><br/><span className="text-xs text-muted-destructive">Click Restart to play again.</span>
             </p>
           )}
         </div>
