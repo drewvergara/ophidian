@@ -307,9 +307,11 @@ const SnakeGame = React.forwardRef<{
     script.async = true;
     script.onload = () => setIsLoading(false);
     document.body.appendChild(script);
-
+  
     return () => {
-      document.body.contains(script) && document.body.removeChild(script);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
   }, []);
 
