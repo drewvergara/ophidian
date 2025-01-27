@@ -113,7 +113,7 @@ const SnakeGame = React.forwardRef<{
       const padding = isHead ? 2 : 4;
       
       // Set line style for snake
-      snake.graphics.lineStyle(1, 0x50C878, 1);
+      snake.graphics.lineStyle(1, 0x4ADE80, 1);
       snake.graphics.beginFill(0x000000, 0);
       
       snake.graphics.drawRoundedRect(
@@ -373,13 +373,13 @@ const SnakeGame = React.forwardRef<{
   }
 
   return (
-    <Card className="w-[360px] bg-black/35 backdrop-blur-sm border-none mx-auto rounded-none">
+    <Card className="w-[360px] bg-black/50 backdrop-blur-sm border-none mx-auto rounded-none">
       <CardHeader className="pb-2 space-y-0">
         <CardTitle className="flex justify-between items-center font-mono font-light text-md">
           <span className="text-[#FFF]">OPHIDIAN</span>
           <div className="flex gap-4">
-            <span className="text-sm text-[#E9271D]">SCORE: {score}</span>
-            <span className="text-sm text-[#5D100C]">BEST: {highScore}</span>
+            <span className="text-sm text-[#EF4444]">SCORE: {score}</span>
+            <span className="text-sm text-[#000]">BEST: {highScore}</span>
           </div>
         </CardTitle>
       </CardHeader>
@@ -393,14 +393,14 @@ const SnakeGame = React.forwardRef<{
             <div ref={containerRef} className="absolute inset-0" style={{ zIndex: 1 }}></div>
             <div className="absolute inset-0" style={{ zIndex: 2 }}>
               {!isPlaying && !gameOver && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/0 backdrop-blur-sm z-20">
+                <div className="absolute inset-0 flex items-center justify-center z-20">
                   <Button
                     variant="secondary"
                     onClick={() => {
                       console.log('Start clicked');
                       setIsPlaying(true);
                     }}
-                    className="w-32 h-12 bg-transparent border border-dashed border-white font-mono text-[#FFF] text-sm"
+                    className="w-32 h-12 bg-black/10 border border-dashed border-white font-mono text-[#FFF] text-sm"
                   >
                     <span className='duration-150 animate-bounce'>
                     <PlayIcon className="w-5 h-5 mr-2" />
@@ -410,11 +410,11 @@ const SnakeGame = React.forwardRef<{
                 </div>
               )}
               {gameOver && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/0 backdrop-blur-sm z-20">
+                <div className="absolute inset-0 flex items-center justify-center z-20">
                   <Button
                     variant="destructive"
                     onClick={handleReset}
-                    className="w-32 h-12 bg-transparent border border-dashed border-red-500 font-mono text-[#FFA] text-sm"
+                    className="w-32 h-12 bg-[#Ef4444]/10 border border-dashed border-red-500 font-mono text-[#FFA] text-sm"
                   >
                     <span className='animate-spin'>
                     <RefreshCwIcon className="w-5 h-5" />
