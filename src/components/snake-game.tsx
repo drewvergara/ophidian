@@ -3,9 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PlayIcon, PauseIcon, RefreshCwIcon } from 'lucide-react';
 
+// declare global {
+//   interface Window {
+//     PIXI: typeof import('pixi.js');
+//   }
+// }
+
+import * as PIXI from 'pixi.js';
 declare global {
   interface Window {
-    PIXI: typeof import('pixi.js');
+    PIXI: typeof PIXI;
   }
 }
 
