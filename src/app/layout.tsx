@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: 'Ophidian',
     description: 'Ophidian is an applet that is a Snake game.',
     creator: '@drewvergara',
-    images: ['https://offekt.s3.us-west-2.amazonaws.com/opengraph/ophidian_opengraph_20250126_1800x1600.jpg'], // Must be an absolute URL
+    images: ['https://offekt.s3.us-west-2.amazonaws.com/opengraph/ophidian_opengraph_20250126_1200x675.jpg'], // Must be an absolute URL
   }    
 };
 
