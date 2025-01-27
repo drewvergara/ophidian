@@ -317,19 +317,19 @@ const SnakeGame = React.forwardRef<{
           }
         }
       });
-
+  
       if (containerRef.current) {
         resizeObserver.observe(containerRef.current);
       }
-
+  
       initGame();
-
+  
       return () => {
-        resizeObserver.disconnect();
+        if (containerRef.current) {
+          resizeObserver.disconnect();
+        }
       };
     }
-    return; 
-    
   }, [isLoading, initGame, drawGame]);
 
   useEffect(() => {
