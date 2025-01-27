@@ -44,7 +44,7 @@ export default function Home() {
               <animate
                 attributeName="seed"
                 values="1;2;3;4;5;6;7;8;9;10"
-                dur="0.7s"
+                dur="2.0s"
                 repeatCount="indefinite"
               />
             </feTurbulence>

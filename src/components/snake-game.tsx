@@ -43,7 +43,7 @@ interface GameState {
 const GAME_WIDTH = 360;
 const CELL_SIZE = Math.floor(GAME_WIDTH / 15);
 const GRID_SIZE = 15;
-const MOVE_INTERVAL = 120;
+const MOVE_INTERVAL = 150;
 
 const SnakeGame = React.forwardRef<{
   handleKeyPress: (event: { key: string; preventDefault?: () => void }) => void;
